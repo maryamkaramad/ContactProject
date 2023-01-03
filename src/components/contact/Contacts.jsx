@@ -1,8 +1,30 @@
 import React from 'react'
-
+import { PINK } from '../../helpers/Color'
+import Contact from './Contact';
+;
 const Contacts = () => {
     return (
-        <div>Contacts</div>
+        <>
+            <section className='container my-2' >
+                <div className='grid'>
+                    <div className='row'>
+                        <div className='col' >
+                            <p className='h3'>
+                                <button className='btn mx-2' style={{ backgroundColor: PINK }}>
+                                    ساخت مخاطب جدید
+                                    <i className='fa fa-plus-circle mx-2' />
+                                </button>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            <section className='container'>
+                <div className='row'>
+                    <Contact />
+                </div>
+            </section>
+        </>
     )
 }
 
