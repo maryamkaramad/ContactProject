@@ -5,10 +5,11 @@ import Contacts from './components/contact/Contacts';
 
 const App = () => {
   const [getContacts, setGetContacts] = useState([])
+  const [loading, setLoading] = useState(false)
   return (
     <div className='App'>
       <Navbar />
-      <Contacts contacts={getContacts} />
+      <Contacts contacts={getContacts} loading={loading} />
     </div>
   );
 }
