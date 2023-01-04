@@ -1,7 +1,7 @@
 import React from 'react'
 import { PINK, CURRENTLINE, ORANGE } from '../../helpers/Color'
-import Contact from './Contact';
-import Spinner from '../Spinner';
+import { Spinner, Contact } from "../../components"
+
 const Contacts = ({ contacts, loading }) => {
     return (
         <>

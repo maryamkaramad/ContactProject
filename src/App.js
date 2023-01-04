@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import Navbar from './components/navbar/Navbar';
 import './App.css';
-import Contacts from './components/contact/Contacts';
+import { Contacts, Navbar } from "./components"
+
 
 const App = () => {
   const [getContacts, setGetContacts] = useState([])
