@@ -1,12 +1,12 @@
 
 import './App.css'
 import { useState, useEffect } from 'react';
-import axios, { Axios } from 'axios';
+import axios from 'axios';
 import { Contacts, Navbar, ViewContact } from "./components"
 import { Routes, Route, Navigate } from 'react-router-dom';
 import AddContact from './components/Contacts/AddContact';
 import EditContact from './components/Contacts/EditContact';
-
+import { getAllContacts, getAllGroups } from "../src/services/contactService"
 const App = () => {
   const [getContacts, setGetContacts] = useState([])
   const [loading, setLoading] = useState(false)
@@ -16,8 +16,8 @@ const App = () => {
     const fetchData = async () => {
       try {
         setLoading(true)
-        const { data: contactData } = await axios.get("http://localhost:9000/contacts")
-        const { data: contactGroup } = await axios.get("http://localhost:9000/groups")
+        const { data: contactData } = await getAllContacts()
+        const { data: contactGroup } = await getAllGroups()
         setGetContacts(contactData)
         setGroups(contactGroup)
         setLoading(false)
@@ -26,7 +26,10 @@ const App = () => {
       }
     }
     fetchData()
-  }, [setGetContacts])
+  }, [])
+
+
+
   return (
     <div className='App'>
       <Navbar />
