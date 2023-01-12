@@ -9,6 +9,7 @@ import EditContact from './components/Contacts/EditContact';
 import { getAllContacts, getAllGroups, createContact } from "../src/services/contactService"
 const App = () => {
   const [getContacts, setGetContacts] = useState([])
+  const [forceRender, setForceRender] = useState(false)
   const [loading, setLoading] = useState(false)
   const [getGroups, setGroups] = useState()
   const [getContact, setContact] = useState({
@@ -35,6 +36,20 @@ const App = () => {
     }
     fetchData()
   }, [])
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true)
+        const { data: contactData } = await getAllContacts()
+        setGetContacts(contactData)
+        setLoading(false)
+      } catch (err) {
+        setLoading(false)
+      }
+    }
+    fetchData()
+  }, [forceRender])
+
   const createContactForm = async (event) => {
     event.preventDefault();
     try {
@@ -42,6 +57,7 @@ const App = () => {
 
       if (status === 201) {
         setContact({});
+        setForceRender(!forceRender)
         navigate("/contacts");
       }
     } catch (err) {
