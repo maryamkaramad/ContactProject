@@ -24,7 +24,7 @@ const Contacts = ({ contacts, loading }) => {
                     <div className='row'>
                         {
                             contacts.length > 0 ? contacts.map(c => (
-                                <Contact key={c.id} Contact={c} />
+                                <Contact key={c.id} contact={c} />
                             )) :
                                 (
                                     <div className='text-center py-5' style={{ backgroundColor: CURRENTLINE }}>

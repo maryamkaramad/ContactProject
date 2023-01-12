@@ -1,32 +1,31 @@
 import React from 'react'
 import { CURRENTLINE, PURPLE, ORANGE, CYAN, RED } from '../../helpers/Color'
-const Contact = () => {
+const Contact = ({ contact }) => {
     return (
         <div className='col-md-6'>
             <div className='card my-2' style={{ backgroundColor: CURRENTLINE }}>
                 <div className='card-body'>
                     <div className='row align-items-center d-flex justify-content-around'>
                         <div className='col-md-4 col-sm-4'>
-                            <img className='img-fluid rounded' src='https://via.placeholder.com/200' alt='' style={{ border: `1px solid ${PURPLE}` }} />
+                            <img className='img-fluid rounded' src={contact.photo} alt={contact.fullname} style={{ border: `1px solid ${PURPLE}` }} />
                         </div>
                         <div className='col-md-7 col-sm-7'>
                             <ul className='list-group'>
                                 <li className='list-group-item list-group-item-dark'>
                                     نام و نام خانوادگی:{""}
                                     <span className='fw-bold'>
-                                        مریم کارامد
-                                    </span>
+                                        {contact.fullname}                                    </span>
                                 </li>
                                 <li className='list-group-item list-group-item-dark'>
                                     شماره موبایل:{""}
                                     <span className='fw-bold'>
-                                        09162780255
+                                        {contact.mobile}
                                     </span>
                                 </li>
                                 <li className='list-group-item list-group-item-dark'>
                                     آدرس ایمیل:
                                     <span className='fw-bold' >
-                                        maryamkaramad73
+                                        {contact.email}
                                     </span>
                                 </li>
                             </ul>
