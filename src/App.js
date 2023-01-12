@@ -1,17 +1,25 @@
 
 import './App.css'
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+
 import { Contacts, Navbar, ViewContact } from "./components"
-import { Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import AddContact from './components/Contacts/AddContact';
 import EditContact from './components/Contacts/EditContact';
-import { getAllContacts, getAllGroups } from "../src/services/contactService"
+import { getAllContacts, getAllGroups, createContact } from "../src/services/contactService"
 const App = () => {
   const [getContacts, setGetContacts] = useState([])
   const [loading, setLoading] = useState(false)
   const [getGroups, setGroups] = useState()
-
+  const [getContact, setContact] = useState({
+    fullname: "",
+    mobile: "",
+    email: "",
+    job: "",
+    group: "",
+    id: "",
+  })
+  const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -27,7 +35,26 @@ const App = () => {
     }
     fetchData()
   }, [])
+  const createContactForm = async (event) => {
+    event.preventDefault();
+    try {
+      const { status } = await createContact(getContact);
 
+      if (status === 201) {
+        setContact({});
+        navigate("/contacts");
+      }
+    } catch (err) {
+      console.log(err.message);
+    }
+  };
+
+  const setContactInfo = (event) => {
+    setContact({
+      ...getContact,
+      [event.target.name]: event.target.value,
+    });
+  };
 
 
   return (
@@ -36,7 +63,11 @@ const App = () => {
       <Routes>
         <Route path='/' element={<Navigate to="/contacts" />} />
         <Route path='/contacts' element={<Contacts contacts={getContacts} loading={loading} />} />
-        <Route path='/contacts/add' element={<AddContact />} />
+        <Route path='/contacts/add' element={<AddContact loading={loading}
+          setContactInfo={setContactInfo}
+          contact={getContact}
+          groups={getGroups}
+          createContactForm={createContactForm} />} />
         <Route path='/contacts/:contactId' element={<ViewContact />} />
         <Route path='/contacts/edit:contactId' element={<EditContact />} />
       </Routes>
