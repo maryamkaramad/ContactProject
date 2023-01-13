@@ -10,7 +10,7 @@ import {
 import { Spinner } from "../";
 import { COMMENT, ORANGE, PURPLE } from "../../helpers/Color";
 
-const EditContact = () => {
+const EditContact = ({ forceRender, setForceRender }) => {
     const { contactId } = useParams();
     const navigate = useNavigate();
 
@@ -66,6 +66,7 @@ const EditContact = () => {
 
             setState({ ...state, loading: false });
             if (data) {
+                setForceRender(!forceRender)
                 navigate("/contacts");
             }
         } catch (err) {
