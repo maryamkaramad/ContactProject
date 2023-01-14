@@ -1,6 +1,6 @@
 import React from 'react'
 import { PURPLE } from '../../helpers/Color'
-const SearchContact = () => {
+const SearchContact = ({ search, query }) => {
     return (
         <div className="input-group mx-2 w-75" dir="ltr">
             <span className="input-group-text" id="basic-addon1" style={{ backgroundColor: PURPLE }}>
@@ -11,6 +11,8 @@ const SearchContact = () => {
                 placeholder="جست و جوی مخاطب"
                 aria-label="Search"
                 aria-describtion='basic-addon1'
+                value={query.text}
+                onChange={search}
             />
         </div>
     )

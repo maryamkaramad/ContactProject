@@ -8,7 +8,7 @@ const Contact = ({ contact, confirmDelete }) => {
                 <div className='card-body'>
                     <div className='row align-items-center d-flex justify-content-around'>
                         <div className='col-md-4 col-sm-4'>
-                            <img className='img-fluid rounded' src={contact.photo} alt={contact.fullname} style={{ border: `1px solid ${PURPLE}` }} />
+                            <img className='img-fluid rounded' src={contact.photo} alt={contact.fullname} style={{ border: `1px solid ${PURPLE}`, width: "200px", height: "200px" }} />
                         </div>
                         <div className='col-md-7 col-sm-7'>
                             <ul className='list-group'>
@@ -24,7 +24,7 @@ const Contact = ({ contact, confirmDelete }) => {
                                     </span>
                                 </li>
                                 <li className='list-group-item list-group-item-dark'>
-                                    آدرس ایمیل:
+                                    آدرس ایمیل:<br />
                                     <span className='fw-bold' >
                                         {contact.email}
                                     </span>

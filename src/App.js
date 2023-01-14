@@ -6,8 +6,8 @@ import { Contacts, Navbar, ViewContact } from "./components"
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import AddContact from './components/Contacts/AddContact';
 import EditContact from './components/Contacts/EditContact';
-import { getAllContacts, getAllGroups, createContact } from "../src/services/contactService"
-import { deleteContact } from './services/contactService';
+import { getAllContacts, getAllGroups, createContact, deleteContact } from "../src/services/contactService"
+
 import {
   CURRENTLINE,
   FOREGROUND,
@@ -20,6 +20,8 @@ const App = () => {
   const [forceRender, setForceRender] = useState(false)
   const [loading, setLoading] = useState(false)
   const [getGroups, setGroups] = useState()
+  const [query, setQuery] = useState({ text: "" })
+  const [fillteredContact, setFillteredContact] = useState([])
   const [getContact, setContact] = useState({
     fullname: "",
     mobile: "",
@@ -36,6 +38,7 @@ const App = () => {
         const { data: contactData } = await getAllContacts()
         const { data: contactGroup } = await getAllGroups()
         setGetContacts(contactData)
+        setFillteredContact(contactData)
         setGroups(contactGroup)
         setLoading(false)
       } catch (err) {
@@ -136,12 +139,21 @@ const App = () => {
     }
   }
 
+  const contactSearch = (event) => {
+    setQuery({ ...query, text: event.target.value });
+    const allContacts = getContacts.filter((contact) => {
+      return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase());
+
+    });
+
+    setFillteredContact(allContacts);
+  };
   return (
     <div className='App'>
-      <Navbar />
+      <Navbar query={query} search={contactSearch} />
       <Routes>
         <Route path='/' element={<Navigate to="/contacts" />} />
-        <Route path='/contacts' element={<Contacts contacts={getContacts} loading={loading} confirmDelete={confirm} />} />
+        <Route path='/contacts' element={<Contacts contacts={fillteredContact} loading={loading} confirmDelete={confirm} />} />
         <Route path='/contacts/add' element={<AddContact loading={loading}
           setContactInfo={setContactInfo}
           contact={getContact}
