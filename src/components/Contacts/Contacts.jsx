@@ -2,8 +2,10 @@ import React from 'react'
 import { PINK, CURRENTLINE, ORANGE } from '../../helpers/Color'
 import { Spinner, Contact } from "../../components"
 import { useNavigate } from 'react-router-dom'
-
-const Contacts = ({ contacts, loading, confirmDelete }) => {
+import { useContext } from 'react'
+import { ContactContext } from '../../context/contactContext'
+const Contacts = () => {
+    const { contacts, loading, deleteContact } = useContext(ContactContext)
     const navigate = useNavigate()
     const handleClick = () => {
         navigate("/contacts/add")
@@ -30,7 +32,7 @@ const Contacts = ({ contacts, loading, confirmDelete }) => {
                     <div className='row'>
                         {
                             contacts.length > 0 ? contacts.map(c => (
-                                <Contact key={c.id} contact={c} confirmDelete={() => confirmDelete(c.id, c.fullname)} />
+                                <Contact key={c.id} contact={c} deleteContact={() => deleteContact(c.id, c.fullname)} />
                             )) :
                                 (
                                     <div className='text-center py-5' style={{ backgroundColor: CURRENTLINE }}>

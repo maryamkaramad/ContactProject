@@ -1,8 +1,7 @@
 {
   "contacts": [
     {
-      "fullname": 
-        "یونس قربانی",
+      "fullname": "یونس قربانی",
       "mobile": "091344566778",
       "photo": "https://barnamenevisan.info/content/images/user/thumb/40fe523109fe43558728ee992e73e5ef.jpeg",
       "email": "younes.gh@gmail",
@@ -16,9 +15,7 @@
       "mobile": "0917888010",
       "email": "madayen.gh@gmail",
       "job": "برنامه نویس",
-      "group": 
-        "2"
-      ,
+      "group": "2",
       "id": 2
     },
     {
@@ -29,17 +26,6 @@
       "group": "2",
       "id": 3,
       "photo": "https://barnamenevisan.info/content/images/user/thumb/b0020b850d574d60824c7ea12d1c2042.png"
-    },
-    {
-      "fullname": "مریم کارامد",
-      "mobile": "09162780255",
-      "email": "maryamkaramad73@gmail.com",
-      "job": "برنامه نویس",
-      "group": "5",
-      "id": 4,
-      "photo": 
-        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRE-pVgpzWs3UlWtUxQ_XuascscW-z8wwe-WQ&usqp=CAU"
-      
     }
   ],
   "groups": [

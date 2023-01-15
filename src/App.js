@@ -52,15 +52,21 @@ const App = () => {
   const createContactForm = async (event) => {
     event.preventDefault();
     try {
-      const { status } = await createContact(contact);
+      setLoading((prveLoading) => !prveLoading)
+
+      const { status, data } = await createContact(contact);
 
       if (status === 201) {
+        const allContacts = [...contacts, data]
+        setContacts(allContacts)
+        setFillteredContacts(allContacts)
         setContact({});
-
+        setLoading((prveLoading) => !prveLoading)
         navigate("/contacts");
       }
     } catch (err) {
       console.log(err.message);
+      setLoading((prveLoading) => !prveLoading)
     }
   };
 
@@ -117,7 +123,7 @@ const App = () => {
       const response = await deleteContact(contactId)
       if (response) {
         const { data: contactData } = await getAllContacts()
-        setContact(contactData)
+        setContacts(contactData)
         setLoading(false)
       }
 
@@ -142,6 +148,8 @@ const App = () => {
       contact,
       contactQuery,
       groups,
+      contacts,
+      setContacts,
       setLoading,
       fillteredContacts,
       createContact: createContactForm,
@@ -150,17 +158,14 @@ const App = () => {
       contactSearch,
       deleteContact: confirmDelete,
 
+
     }}>
       <div className='App'>
         <Navbar />
         <Routes>
           <Route path='/' element={<Navigate to="/contacts" />} />
-          <Route path='/contacts' element={<Contacts contacts={fillteredContacts} loading={loading} confirmDelete={confirmDelete} />} />
-          <Route path='/contacts/add' element={<AddContact loading={loading}
-            setContactInfo={onContactChange}
-            contact={contact}
-            groups={groups}
-            createContactForm={createContactForm} />} />
+          <Route path='/contacts' element={<Contacts />} />
+          <Route path='/contacts/add' element={<AddContact />} />
           <Route path='/contacts/:contactId' element={<ViewContact />} />
           <Route path='/contacts/edit/:contactId' element={<EditContact />} />
         </Routes>
