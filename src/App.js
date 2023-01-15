@@ -118,24 +118,31 @@ const App = () => {
 
 
   const removeContact = async (contactId) => {
+    const allContacts = [...contacts]
     try {
-      setLoading(true)
-      const response = await deleteContact(contactId)
-      if (response) {
-        const { data: contactData } = await getAllContacts()
-        setContacts(contactData)
-        setLoading(false)
+
+
+      const updatetContacts = contacts.filter(c => c.id !== contactId)
+      setContacts(updatetContacts)
+      setFillteredContacts(updatetContacts)
+      const { status } = await deleteContact(contactId)
+      if (status !== 200) {
+        setContacts(allContacts)
+        setFillteredContacts(allContacts)
+
       }
 
     } catch (err) {
       console.log(err.message)
-      setLoading(false)
+      setContacts(allContacts)
+      setFillteredContacts(allContacts)
     }
   }
 
   const contactSearch = (event) => {
     setContactQuery({ ...contactQuery, text: event.target.value });
     const allContacts = contacts.filter((contact) => {
+
       return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase());
 
     });
@@ -151,6 +158,7 @@ const App = () => {
       contacts,
       setContacts,
       setLoading,
+      setFillteredContacts,
       fillteredContacts,
       createContact: createContactForm,
       onContactChange,

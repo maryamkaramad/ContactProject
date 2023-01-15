@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { useContext } from 'react'
 import { ContactContext } from '../../context/contactContext'
 const Contacts = () => {
-    const { contacts, loading, deleteContact } = useContext(ContactContext)
+    const { fillteredContacts, loading, deleteContact } = useContext(ContactContext)
     const navigate = useNavigate()
     const handleClick = () => {
         navigate("/contacts/add")
@@ -31,7 +31,7 @@ const Contacts = () => {
                 <section className='container'>
                     <div className='row'>
                         {
-                            contacts.length > 0 ? contacts.map(c => (
+                            fillteredContacts.length > 0 ? fillteredContacts.map(c => (
                                 <Contact key={c.id} contact={c} deleteContact={() => deleteContact(c.id, c.fullname)} />
                             )) :
                                 (
