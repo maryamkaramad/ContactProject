@@ -20,7 +20,7 @@ const App = () => {
 
   const [loading, setLoading] = useState(false)
   const [groups, setGroups] = useState()
-  const [contactQuery, setContactQuery] = useState({ text: "" })
+
   const [fillteredContacts, setFillteredContacts] = useState([])
   const [contact, setContact] = useState({
     fullname: "",
@@ -138,22 +138,22 @@ const App = () => {
       setFillteredContacts(allContacts)
     }
   }
+  let filterTimeOut;
+  const contactSearch = (query) => {
+    clearTimeout(filterTimeOut)
+    if (!query) return setFillteredContacts(contacts)
+    filterTimeOut = setTimeout(() => {
+      setFillteredContacts(contacts.filter((contact) => {
+        return contact.fullname.toLowerCase().includes(query.toLowerCase());
+      })
+      );
+    }, 1000);
 
-  const contactSearch = (event) => {
-    setContactQuery({ ...contactQuery, text: event.target.value });
-    const allContacts = contacts.filter((contact) => {
-
-      return contact.fullname.toLowerCase().includes(event.target.value.toLowerCase());
-
-    });
-
-    setFillteredContacts(allContacts);
   };
   return (
     <ContactContext.Provider value={{
       loading,
       contact,
-      contactQuery,
       groups,
       contacts,
       setContacts,
