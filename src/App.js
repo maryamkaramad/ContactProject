@@ -6,6 +6,7 @@ import { Contacts, Navbar, ViewContact } from "./components"
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import AddContact from './components/Contacts/AddContact';
 import EditContact from './components/Contacts/EditContact';
+import _ from 'lodash'
 import { getAllContacts, getAllGroups, createContact, deleteContact } from "../src/services/contactService"
 import { ContactContext } from './context/contactContext';
 import {
@@ -138,18 +139,18 @@ const App = () => {
       setFillteredContacts(allContacts)
     }
   }
-  let filterTimeOut;
-  const contactSearch = (query) => {
-    clearTimeout(filterTimeOut)
+  // let filterTimeOut;
+  const contactSearch = _.debounce((query) => {
+    // clearTimeout(filterTimeOut)
     if (!query) return setFillteredContacts(contacts)
-    filterTimeOut = setTimeout(() => {
-      setFillteredContacts(contacts.filter((contact) => {
-        return contact.fullname.toLowerCase().includes(query.toLowerCase());
-      })
-      );
-    }, 1000);
+    // filterTimeOut = setTimeout(() => {
+    setFillteredContacts(contacts.filter((contact) => {
+      return contact.fullname.toLowerCase().includes(query.toLowerCase());
+    })
+    );
+    // }, 1000);
 
-  };
+  }, 1000);
   return (
     <ContactContext.Provider value={{
       loading,
