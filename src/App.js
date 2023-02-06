@@ -16,12 +16,11 @@ import {
   YELLOW,
   COMMENT,
 } from "./helpers/Color"
+import { contactSchema } from './validations/contactValidation';
 const App = () => {
   const [contacts, setContacts] = useState([])
-
   const [loading, setLoading] = useState(false)
   const [groups, setGroups] = useState()
-
   const [fillteredContacts, setFillteredContacts] = useState([])
   const [contact, setContact] = useState({
     fullname: "",
@@ -31,6 +30,7 @@ const App = () => {
     group: "",
     id: "",
   })
+  const [errors, setErrors] = useState([])
   const navigate = useNavigate();
   useEffect(() => {
     const fetchData = async () => {
@@ -54,7 +54,7 @@ const App = () => {
     event.preventDefault();
     try {
       setLoading((prveLoading) => !prveLoading)
-
+      await contactSchema.validate(contact, { abortEarly: false });
       const { status, data } = await createContact(contact);
 
       if (status === 201) {
@@ -62,11 +62,13 @@ const App = () => {
         setContacts(allContacts)
         setFillteredContacts(allContacts)
         setContact({});
+        setErrors([]);
         setLoading((prveLoading) => !prveLoading)
         navigate("/contacts");
       }
     } catch (err) {
-      console.log(err.message);
+      console.log(err.inner);
+      setErrors(err.inner);
       setLoading((prveLoading) => !prveLoading)
     }
   };
@@ -157,6 +159,7 @@ const App = () => {
       contact,
       groups,
       contacts,
+      errors,
       setContacts,
       setLoading,
       setFillteredContacts,
