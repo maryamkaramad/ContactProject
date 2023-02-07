@@ -67,11 +67,12 @@ function AddContact() {
                                         <div className="mb-2">
                                             <input
                                                 id="fullname"
-                                                name="fullname"
+                                                // name="fullname"
                                                 type="text"
-                                                value={formik.values.fullname}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                // value={formik.values.fullname}
+                                                // onChange={formik.handleChange}
+                                                // onBlur={formik.handleBlur}
+                                                {...formik.getFieldProps("fullname")}
                                                 className="form-control"
                                                 placeholder="نام و نام خانوادگی"
                                             // required={true}
@@ -81,11 +82,12 @@ function AddContact() {
                                         <div className="mb-2">
                                             <input
                                                 id="photo"
-                                                name="photo"
+                                                // name="photo"
                                                 type="text"
-                                                value={formik.values.photo}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                // value={formik.values.photo}
+                                                // onChange={formik.handleChange}
+                                                // onBlur={formik.handleBlur}
+                                                {...formik.getFieldProps("photo")}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="آدرس تصویر"
@@ -95,11 +97,12 @@ function AddContact() {
                                         <div className="mb-2">
                                             <input
                                                 id="mobile"
-                                                name="mobile"
+                                                // name="mobile"
                                                 type="number"
-                                                value={formik.values.mobile}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                // value={formik.values.mobile}
+                                                // onChange={formik.handleChange}
+                                                // onBlur={formik.handleBlur}
+                                                {...formik.getFieldProps("mobile")}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="شماره موبایل"
@@ -110,10 +113,11 @@ function AddContact() {
                                             <input
                                                 id="email"
                                                 type="email"
-                                                name="email"
-                                                value={formik.values.email}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                // name="email"
+                                                // value={formik.values.email}
+                                                // onChange={formik.handleChange}
+                                                // onBlur={formik.handleBlur}
+                                                {...formik.getFieldProps("email")}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="آدرس ایمیل"
@@ -124,10 +128,11 @@ function AddContact() {
                                             <input
                                                 id="job"
                                                 type="text"
-                                                name="job"
-                                                value={formik.values.job}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                // name="job"
+                                                // value={formik.values.job}
+                                                // onChange={formik.handleChange}
+                                                // onBlur={formik.handleBlur}
+                                                {...formik.getFieldProps("job")}
                                                 className="form-control"
                                                 // required={true}
                                                 placeholder="شغل"
@@ -137,10 +142,11 @@ function AddContact() {
                                         <div className="mb-2">
                                             <select
                                                 id="group"
-                                                name="group"
-                                                value={formik.values.group}
-                                                onChange={formik.handleChange}
-                                                onBlur={formik.handleBlur}
+                                                // name="group"
+                                                // value={formik.values.group}
+                                                // onChange={formik.handleChange}
+                                                // onBlur={formik.handleBlur}
+                                                {...formik.getFieldProps("group")}
                                                 // required={true}
                                                 className="form-control"
                                             >
