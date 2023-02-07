@@ -7,7 +7,8 @@ import {
 } from "../../services/contactService";
 import { Spinner } from "../";
 import { COMMENT, ORANGE, PURPLE } from "../../helpers/Color";
-
+import { Formik, Form, Field, ErrorMessage } from "formik";
+import { contactSchema } from "../../validations/contactValidation";
 const EditContact = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
@@ -30,15 +31,15 @@ const EditContact = () => {
         fetchData();
     }, []);
 
-    const setContactInfo = (event) => {
-        setContact({ ...contact, [event.target.name]: event.target.value })
-    };
+    // const setContactInfo = (event) => {
+    //     setContact({ ...contact, [event.target.name]: event.target.value })
+    // };
 
-    const submitForm = async (event) => {
-        event.preventDefault();
+    const submitForm = async (values) => {
+        // event.preventDefault();
         try {
             setLoading(true)
-            const { data, status } = await updateContact(contact, contactId);
+            const { data, status } = await updateContact(values, contactId);
             if (status === 200) {
                 const allContacts = [...contacts]
                 const contactIndex = allContacts.findIndex(c => c.id === +contactId)
@@ -77,95 +78,137 @@ const EditContact = () => {
                                 style={{ backgroundColor: "#44475a", borderRadius: "1em" }}
                             >
                                 <div className="col-md-8">
-                                    <form onSubmit={submitForm}>
-                                        <div className="mb-2">
-                                            <input
-                                                name="fullname"
-                                                type="text"
-                                                className="form-control"
-                                                value={contact.fullname}
-                                                onChange={setContactInfo}
-                                                required={true}
-                                                placeholder="نام و نام خانوادگی"
-                                            />
-                                        </div>
-                                        <div className="mb-2">
-                                            <input
-                                                name="photo"
-                                                type="text"
-                                                value={contact.photo}
-                                                onChange={setContactInfo}
-                                                className="form-control"
-                                                required={true}
-                                                placeholder="آدرس تصویر"
-                                            />
-                                        </div>
-                                        <div className="mb-2">
-                                            <input
-                                                name="mobile"
-                                                type="number"
-                                                className="form-control"
-                                                value={contact.mobile}
-                                                onChange={setContactInfo}
-                                                required={true}
-                                                placeholder="شماره موبایل"
-                                            />
-                                        </div>
-                                        <div className="mb-2">
-                                            <input
-                                                name="email"
-                                                type="email"
-                                                className="form-control"
-                                                value={contact.email}
-                                                onChange={setContactInfo}
-                                                required={true}
-                                                placeholder="آدرس ایمیل"
-                                            />
-                                        </div>
-                                        <div className="mb-2">
-                                            <input
-                                                name="job"
-                                                type="text"
-                                                className="form-control"
-                                                value={contact.job}
-                                                onChange={setContactInfo}
-                                                required={true}
-                                                placeholder="شغل"
-                                            />
-                                        </div>
-                                        <div className="mb-2">
-                                            <select
-                                                name="group"
-                                                value={contact.group}
-                                                onChange={setContactInfo}
-                                                required={true}
-                                                className="form-control"
-                                            >
-                                                <option value="">انتخاب گروه</option>
-                                                {groups.length > 0 &&
-                                                    groups.map((group) => (
-                                                        <option key={group.id} value={group.id}>
-                                                            {group.name}
-                                                        </option>
-                                                    ))}
-                                            </select>
-                                        </div>
-                                        <div className="mb-2">
-                                            <input
-                                                type="submit"
-                                                className="btn"
-                                                style={{ backgroundColor: PURPLE }}
-                                                value="ویرایش مخاطب"
-                                            />
-                                            <Link
-                                                to={"/contacts"}
-                                                className="btn mx-2"
-                                                style={{ backgroundColor: COMMENT }}
-                                            >
-                                                انصراف
-                                            </Link>
-                                        </div>
-                                    </form>
+                                    <Formik
+                                        initialValues={contact}
+                                        validationSchema={contactSchema}
+                                        onSubmit={(values) => {
+
+                                            submitForm(values)
+                                        }}>
+
+
+                                        <Form >
+                                            <div className="mb-2">
+                                                <Field
+                                                    id="fullname"
+                                                    name="fullname"
+                                                    type="text"
+                                                    // value={formik.values.fullname}
+                                                    // onChange={formik.handleChange}
+                                                    // onBlur={formik.handleBlur}
+                                                    // {...formik.getFieldProps("fullname")}
+                                                    className="form-control"
+                                                    placeholder="نام و نام خانوادگی"
+                                                // required={true}
+                                                />
+                                                {/* {formik.touched.fullname && formik.errors.fullname ? (<div className="text-danger">{formik.errors.fullname}</div>) : null} */}
+                                                <ErrorMessage name="fullname" render={(msg) => (<div className="text-danger">{msg}</div>)} />
+                                            </div>
+                                            <div className="mb-2">
+                                                <Field
+                                                    // id="photo"
+                                                    name="photo"
+                                                    type="text"
+                                                    // value={formik.values.photo}
+                                                    // onChange={formik.handleChange}
+                                                    // onBlur={formik.handleBlur}
+                                                    // {...formik.getFieldProps("photo")}
+                                                    className="form-control"
+                                                    // required={true}
+                                                    placeholder="آدرس تصویر"
+                                                />
+                                                {/* {formik.touched.photo && formik.errors.photo ? (<div className="text-danger">{formik.errors.photo}</div>) : null} */}
+                                                <ErrorMessage name="photo" render={(msg) => (<div className="text-danger">{msg}</div>)} />
+                                            </div>
+                                            <div className="mb-2">
+                                                <Field
+                                                    // id="mobile"
+                                                    name="mobile"
+                                                    type="number"
+                                                    // value={formik.values.mobile}
+                                                    // onChange={formik.handleChange}
+                                                    // onBlur={formik.handleBlur}
+                                                    // {...formik.getFieldProps("mobile")}
+                                                    className="form-control"
+                                                    // required={true}
+                                                    placeholder="شماره موبایل"
+                                                />
+                                                {/* {formik.touched.mobile && formik.errors.mobile ? (<div className="text-danger">{formik.errors.mobile}</div>) : null} */}
+                                                <ErrorMessage name="mobile" render={(msg) => (<div className="text-danger">{msg}</div>)} />
+                                            </div>
+                                            <div className="mb-2">
+                                                <Field
+                                                    // id="email"
+                                                    type="email"
+                                                    name="email"
+                                                    // value={formik.values.email}
+                                                    // onChange={formik.handleChange}
+                                                    // onBlur={formik.handleBlur}
+                                                    // {...formik.getFieldProps("email")}
+                                                    className="form-control"
+                                                    // required={true}
+                                                    placeholder="آدرس ایمیل"
+                                                />
+                                                {/* {formik.touched.email && formik.errors.email ? (<div className="text-danger">{formik.errors.email}</div>) : null} */}
+                                                <ErrorMessage name="email" render={(msg) => (<div className="text-danger">{msg}</div>)} />
+                                            </div>
+                                            <div className="mb-2">
+                                                <Field
+                                                    // id="job"
+                                                    type="text"
+                                                    name="job"
+                                                    // value={formik.values.job}
+                                                    // onChange={formik.handleChange}
+                                                    // onBlur={formik.handleBlur}
+                                                    // {...formik.getFieldProps("job")}
+                                                    className="form-control"
+                                                    // required={true}
+                                                    placeholder="شغل"
+                                                />
+                                                {/* {formik.touched.job && formik.errors.job ? (<div className="text-danger">{formik.errors.job}</div>) : null} */}
+                                                <ErrorMessage name="job" render={(msg) => (<div className="text-danger">{msg}</div>)} />
+                                            </div>
+                                            <div className="mb-2">
+                                                <Field
+                                                    // id="group"
+                                                    name="group"
+                                                    as="select"
+
+                                                    // value={formik.values.group}
+                                                    // onChange={formik.handleChange}
+                                                    // onBlur={formik.handleBlur}
+                                                    // {...formik.getFieldProps("group")}
+                                                    // required={true}
+                                                    className="form-control"
+                                                >
+                                                    <option value="">انتخاب گروه</option>
+                                                    {groups.length > 0 &&
+                                                        groups.map((group) => (
+                                                            <option key={group.id} value={group.id}>
+                                                                {group.name}
+                                                            </option>
+                                                        ))}
+                                                </Field>
+                                                {/* {formik.touched.group && formik.errors.group ? (<div className="text-danger">{formik.errors.group}</div>) : null} */}
+                                                <ErrorMessage name="group" render={(msg) => (<div className="text-danger">{msg}</div>)} />
+                                            </div>
+                                            <div className="mx-2">
+                                                <input
+                                                    type="submit"
+                                                    className="btn"
+                                                    style={{ backgroundColor: PURPLE }}
+                                                    value="ساخت مخاطب"
+                                                />
+                                                <Link
+                                                    to={"/contacts"}
+                                                    className="btn mx-2"
+                                                    style={{ backgroundColor: COMMENT }}
+                                                >
+                                                    انصراف
+                                                </Link>
+                                            </div>
+                                        </Form>
+                                    </Formik>
                                 </div>
                                 <div className="col-md-4">
                                     <img
