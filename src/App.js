@@ -61,7 +61,7 @@ const App = () => {
       const { status, data } = await createContact(values);
 
       if (status === 201) {
-        toast.success("مخاطب با موفقیت ساخته شد")
+
         // const allContacts = [...contacts, data]
         // setContacts(allContacts)
         // setFillteredContacts(allContacts)
@@ -71,10 +71,11 @@ const App = () => {
           draft.push(data)
         })
         setFillteredContacts(draft => {
-          draft.push(draft)
+          draft.push(data)
         })
         setLoading((prveLoading) => !prveLoading)
         navigate("/contacts");
+        toast.success("مخاطب با موفقیت ساخته شد")
       }
     } catch (err) {
       console.log(err.inner);
@@ -138,11 +139,14 @@ const App = () => {
       // const updatetContacts = contacts.filter(c => c.id !== contactId)
       // setContacts(updatetContacts)
       // setFillteredContacts(updatetContacts)
-      toast.success("مخاطب با موفیقت حذف شد")
-      setContacts((draft) => { draft.filter(c => c.id !== contactId) })
-      setFillteredContacts((draft) => { draft.filter(c => c.id !== contactId) })
+      setContacts((draft) => contacts.filter((c) => c.id !== contactId));
+      setFillteredContacts((draft) =>
+        contacts.filter((c) => c.id !== contactId)
+      );
 
       const { status } = await deleteContact(contactId)
+      toast.error("مخاطب با موفیقت حذف شد")
+
       if (status !== 200) {
         setContacts(contactsBackup)
         setFillteredContacts(contactsBackup)
