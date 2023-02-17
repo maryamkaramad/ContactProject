@@ -18,6 +18,7 @@ import {
 } from "./helpers/Color"
 // import { contactSchema } from './validations/contactValidation';
 import { useImmer } from 'use-immer';
+import { ToastContainer, toast } from 'react-toastify';
 const App = () => {
   const [contacts, setContacts] = useImmer([])
   const [loading, setLoading] = useImmer(false)
@@ -60,6 +61,7 @@ const App = () => {
       const { status, data } = await createContact(values);
 
       if (status === 201) {
+        toast.success("مخاطب با موفقیت ساخته شد")
         // const allContacts = [...contacts, data]
         // setContacts(allContacts)
         // setFillteredContacts(allContacts)
@@ -136,7 +138,7 @@ const App = () => {
       // const updatetContacts = contacts.filter(c => c.id !== contactId)
       // setContacts(updatetContacts)
       // setFillteredContacts(updatetContacts)
-
+      toast.success("مخاطب با موفیقت حذف شد")
       setContacts((draft) => { draft.filter(c => c.id !== contactId) })
       setFillteredContacts((draft) => { draft.filter(c => c.id !== contactId) })
 
@@ -191,6 +193,7 @@ const App = () => {
 
     }}>
       <div className='App'>
+        <ToastContainer rtl={true} position='top-center' theme='colored' />
         <Navbar />
         <Routes>
           <Route path='/' element={<Navigate to="/contacts" />} />

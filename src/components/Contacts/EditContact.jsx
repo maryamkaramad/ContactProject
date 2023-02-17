@@ -10,6 +10,7 @@ import { COMMENT, ORANGE, PURPLE } from "../../helpers/Color";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { contactSchema } from "../../validations/contactValidation";
 import { useImmer } from 'use-immer';
+import { toast } from "react-toastify"
 const EditContact = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
@@ -42,6 +43,7 @@ const EditContact = () => {
             setLoading(true)
             const { data, status } = await updateContact(values, contactId);
             if (status === 200) {
+                toast.info("مخاطب با موفقیت تغییر کرد")
                 // const allContacts = [...contacts]
                 // // const contactIndex = allContacts.findIndex(c => c.id === +contactId)
                 // allContacts[contactIndex] = { ...data }
