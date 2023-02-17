@@ -9,11 +9,12 @@ import { Spinner } from "../";
 import { COMMENT, ORANGE, PURPLE } from "../../helpers/Color";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { contactSchema } from "../../validations/contactValidation";
+import { useImmer } from 'use-immer';
 const EditContact = () => {
     const { contactId } = useParams();
     const navigate = useNavigate();
     const { loading, setLoading, groups, setContacts, contacts, setFillteredContacts } = useContext(ContactContext)
-    const [contact, setContact] = useState({});
+    const [contact, setContact] = useImmer({});
 
     useEffect(() => {
         const fetchData = async () => {
@@ -41,12 +42,23 @@ const EditContact = () => {
             setLoading(true)
             const { data, status } = await updateContact(values, contactId);
             if (status === 200) {
-                const allContacts = [...contacts]
-                const contactIndex = allContacts.findIndex(c => c.id === +contactId)
-                allContacts[contactIndex] = { ...data }
-                console.log(allContacts[contactIndex])
-                setContacts(allContacts)
-                setFillteredContacts(allContacts)
+                // const allContacts = [...contacts]
+                // // const contactIndex = allContacts.findIndex(c => c.id === +contactId)
+                // allContacts[contactIndex] = { ...data }
+                // console.log(allContacts[contactIndex])
+                // setContacts(allContacts)
+                // setFillteredContacts(allContacts)
+                setContacts((draft) => {
+                    const contactIndex = draft.findIndex(c => c.id === +contactId)
+                    draft[contactIndex] = { ...data }
+                })
+                setFillteredContacts((draft) => {
+                    const contactIndex = draft.findIndex(c => c.id === +contactId)
+                    draft[contactIndex] = { ...data }
+                })
+
+
+
                 setLoading(false)
                 navigate("/contacts");
             }
@@ -197,7 +209,7 @@ const EditContact = () => {
                                                     type="submit"
                                                     className="btn"
                                                     style={{ backgroundColor: PURPLE }}
-                                                    value="ساخت مخاطب"
+                                                    value="ویرایش مخاطب"
                                                 />
                                                 <Link
                                                     to={"/contacts"}

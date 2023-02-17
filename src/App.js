@@ -17,19 +17,20 @@ import {
   COMMENT,
 } from "./helpers/Color"
 // import { contactSchema } from './validations/contactValidation';
+import { useImmer } from 'use-immer';
 const App = () => {
-  const [contacts, setContacts] = useState([])
-  const [loading, setLoading] = useState(false)
-  const [groups, setGroups] = useState()
-  const [fillteredContacts, setFillteredContacts] = useState([])
-  const [contact, setContact] = useState({
-    fullname: "",
-    mobile: "",
-    email: "",
-    job: "",
-    group: "",
-    id: "",
-  })
+  const [contacts, setContacts] = useImmer([])
+  const [loading, setLoading] = useImmer(false)
+  const [groups, setGroups] = useImmer()
+  const [fillteredContacts, setFillteredContacts] = useImmer([])
+  // const [contact, setContact] = useImmer({
+  //   fullname: "",
+  //   mobile: "",
+  //   email: "",
+  //   job: "",
+  //   group: "",
+  //   id: "",
+  // })
   // const [errors, setErrors] = useState([])
   const navigate = useNavigate();
   useEffect(() => {
@@ -53,16 +54,23 @@ const App = () => {
   const createContactForm = async (values) => {
     // event.preventDefault();
     try {
-      setLoading((prveLoading) => !prveLoading)
+      // setLoading((prveLoading) => !prveLoading)
+      setLoading(draft => !draft)
       // await contactSchema.validate(contact, { abortEarly: false });
       const { status, data } = await createContact(values);
 
       if (status === 201) {
-        const allContacts = [...contacts, data]
-        setContacts(allContacts)
-        setFillteredContacts(allContacts)
-        setContact({});
+        // const allContacts = [...contacts, data]
+        // setContacts(allContacts)
+        // setFillteredContacts(allContacts)
+        // setContact({});
         // setErrors([]);
+        setContacts(draft => {
+          draft.push(data)
+        })
+        setFillteredContacts(draft => {
+          draft.push(draft)
+        })
         setLoading((prveLoading) => !prveLoading)
         navigate("/contacts");
       }
@@ -73,12 +81,12 @@ const App = () => {
     }
   };
 
-  const onContactChange = (event) => {
-    setContact({
-      ...contact,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // const onContactChange = (event) => {
+  //   setContact({
+  //     ...contact,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
   const confirmDelete = (contactId, contactFullname) => {
     confirmAlert({
       customUI: ({ onClose }) => {
@@ -121,24 +129,28 @@ const App = () => {
 
 
   const removeContact = async (contactId) => {
-    const allContacts = [...contacts]
+    const contactsBackup = [...contacts]
     try {
 
 
-      const updatetContacts = contacts.filter(c => c.id !== contactId)
-      setContacts(updatetContacts)
-      setFillteredContacts(updatetContacts)
+      // const updatetContacts = contacts.filter(c => c.id !== contactId)
+      // setContacts(updatetContacts)
+      // setFillteredContacts(updatetContacts)
+
+      setContacts((draft) => { draft.filter(c => c.id !== contactId) })
+      setFillteredContacts((draft) => { draft.filter(c => c.id !== contactId) })
+
       const { status } = await deleteContact(contactId)
       if (status !== 200) {
-        setContacts(allContacts)
-        setFillteredContacts(allContacts)
+        setContacts(contactsBackup)
+        setFillteredContacts(contactsBackup)
 
       }
 
     } catch (err) {
       console.log(err.message)
-      setContacts(allContacts)
-      setFillteredContacts(allContacts)
+      setContacts(contactsBackup)
+      setFillteredContacts(contactsBackup)
     }
   }
   // let filterTimeOut;
@@ -146,9 +158,15 @@ const App = () => {
     // clearTimeout(filterTimeOut)
     if (!query) return setFillteredContacts(contacts)
     // filterTimeOut = setTimeout(() => {
-    setFillteredContacts(contacts.filter((contact) => {
+    // setFillteredContacts(contacts.filter((contact) => {
+    //   return contact.fullname.toLowerCase().includes(query.toLowerCase());
+    // })
+
+    // );
+    setFillteredContacts((draft) => draft.filter((contact) => {
       return contact.fullname.toLowerCase().includes(query.toLowerCase());
     })
+
     );
     // }, 1000);
 
@@ -156,7 +174,7 @@ const App = () => {
   return (
     <ContactContext.Provider value={{
       loading,
-      contact,
+
       groups,
       contacts,
       // errors,
@@ -165,8 +183,8 @@ const App = () => {
       setFillteredContacts,
       fillteredContacts,
       createContact: createContactForm,
-      onContactChange,
-      setContact,
+
+
       contactSearch,
       deleteContact: confirmDelete,
 
