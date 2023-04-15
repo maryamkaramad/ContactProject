@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-const SERVER_URL = 'https://contact-project-tau.vercel.app'
+const SERVER_URL = 'https://test.maryamkaramad.ir'
 
 // @desc Get All Contacts
 // @route GET http://localhost:9000/contacts
