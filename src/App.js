@@ -20,6 +20,7 @@ import {
 import { useImmer } from 'use-immer';
 import { ToastContainer, toast } from 'react-toastify';
 const App = () => {
+  // throw new Error("errrrrrorrrrr")
   const [contacts, setContacts] = useImmer([])
   const [loading, setLoading] = useImmer(false)
   const [groups, setGroups] = useImmer()

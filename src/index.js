@@ -6,16 +6,37 @@ import reportWebVitals from './reportWebVitals'
 import { BrowserRouter } from 'react-router-dom'
 import 'react-confirm-alert/src/react-confirm-alert.css' // Import css
 import 'react-toastify/dist/ReactToastify.css'
+import { ErrorBoundary } from 'react-error-boundary'
 import { Helmet, HelmetProvider } from 'react-helmet-async'
+
+function Fallback ({ error, resetErrorBoundary }) {
+  // Call resetErrorBoundary() to reset the error boundary and retry the render.
+
+  return (
+    <div role='alert'>
+      <p>Something went wrong:</p>
+      <pre style={{ color: 'red' }}>{error.message}</pre>
+    </div>
+  )
+}
+
 const root = ReactDOM.createRoot(document.getElementById('root'))
+
 root.render(
   <HelmetProvider>
     <Helmet>
       <title>مخاطبین</title>
     </Helmet>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
+    <ErrorBoundary
+      FallbackComponent={Fallback}
+      onReset={details => {
+        // Reset the state of your app so the error doesn't happen again
+      }}
+    >
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </ErrorBoundary>
   </HelmetProvider>
 )
 
